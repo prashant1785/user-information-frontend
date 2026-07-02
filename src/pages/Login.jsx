@@ -195,8 +195,8 @@ export default function Login() {
                 style={{
                   ...inputStyle,
                   textAlign: "center",
-                  letterSpacing: "8px",
-                  fontSize: "22px",
+                  letterSpacing: "5px",
+                  fontSize: "15px",
                   fontWeight: "bold",
                 }}
                 maxLength={6}
