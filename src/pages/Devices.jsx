@@ -81,7 +81,7 @@ export default function Devices() {
       DEACTIVE:          { backgroundColor: "#ffc107", color: "black" },
       SUBSCRIPTION_ENDED:{ backgroundColor: "#dc3545", color: "white" },
     };
-    return styles[type] || { backgroundColor: "gray", color: "white" };
+    return styles[type] || { backgroundColor: "blue", color: "white" };
   };
 
   const canManage = ["SUPER_ADMIN", "DEVELOPER"].includes(currentUser?.role);
