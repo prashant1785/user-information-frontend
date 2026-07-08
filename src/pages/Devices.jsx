@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getDevices, addDevice, deleteDevice } from "../services/deviceService";
+import { getDevices, addDevice, deleteDevice, downloadDevicesPdf } from "../services/deviceService";
 import { getCurrentUser } from "../services/authService";
 import BackButton from "../components/BackButton";
 import { useTheme } from "../context/ThemeContext";
@@ -62,6 +62,14 @@ export default function Devices() {
     } catch { alert("Failed to delete device"); }
   };
 
+  const handleDownloadDevicesPdf = async () => {
+    try {
+      await downloadDevicesPdf();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to download PDF");
+    }
+  };
+
   const formatDetails = (details) => {
     try { return JSON.stringify(JSON.parse(details), null, 2); }
     catch { return details; }
@@ -113,7 +121,11 @@ export default function Devices() {
 
       {/* ── Add Device Button ── */}
       {canManage && (
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginBottom: "16px" }}>
+          <button onClick={handleDownloadDevicesPdf}
+            style={{ padding: "8px 16px", backgroundColor: t.btnSecondary, color: t.btnSecondaryText, border: "none", borderRadius: "4px", cursor: "pointer" }}>
+            Download PDF
+          </button>
           <button onClick={() => setShowAddForm(!showAddForm)}
             style={{ padding: "8px 16px", backgroundColor: t.btnPrimary, color: t.btnPrimaryText, border: "none", borderRadius: "4px", cursor: "pointer" }}>
             {showAddForm ? "Cancel" : "Add Device"}

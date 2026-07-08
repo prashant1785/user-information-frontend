@@ -6,7 +6,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import { useTheme } from "../context/ThemeContext";
 import { lightTheme, darkTheme } from "../styles/theme";
 import {
-  getAllUsers, updateUserRole, deleteUser, createUserByAdmin,
+  getAllUsers, updateUserRole, deleteUser, createUserByAdmin, downloadUsersPdf,
 } from "../services/userService";
 
 export default function Users() {
@@ -80,6 +80,14 @@ export default function Users() {
     }
   };
 
+  const handleDownloadUsersPdf = async () => {
+    try {
+      await downloadUsersPdf();
+    } catch (err) {
+      alert(err.response?.data?.message || "Failed to download PDF");
+    }
+  };
+
   const isSuperOrDev = ["SUPER_ADMIN", "DEVELOPER"].includes(currentUser?.role);
 
   const inputStyle = {
@@ -124,7 +132,13 @@ export default function Users() {
 
       {/* ── Create User Button ── */}
       {isSuperOrDev && (
-        <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: "16px" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginBottom: "16px" }}>
+          <button
+            onClick={handleDownloadUsersPdf}
+            style={{ padding: "8px 16px", backgroundColor: t.btnSecondary, color: t.btnSecondaryText, border: "none", borderRadius: "4px", cursor: "pointer" }}
+          >
+            Download PDF
+          </button>
           <button
             onClick={() => { setShowCreateForm(!showCreateForm); setCreateError(""); }}
             style={{ padding: "8px 16px", backgroundColor: t.btnPrimary, color: t.btnPrimaryText, border: "none", borderRadius: "4px", cursor: "pointer" }}
